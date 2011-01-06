@@ -34,6 +34,7 @@ package org.swiftsuspenders.suites
 	import org.swiftsuspenders.injectionpoints.PropertyInjectionPointTests;
 	import org.swiftsuspenders.processors.InjectMetadataProcessorTests;
 	import org.swiftsuspenders.processors.PostConstructMetadataProcessorTests;
+	import org.swiftsuspenders.processors.CustomMetadataProcessorTests;
 	
 	[Suite]
 	[RunWith("org.flexunit.runners.Suite")]
@@ -51,5 +52,6 @@ package org.swiftsuspenders.suites
 		public var getConstructorTests : GetConstructorTests;
 		public var injectMetadataProcessorTests : InjectMetadataProcessorTests;
 		public var postConstructMetadataProcessorTests : PostConstructMetadataProcessorTests;
+		public var customMetadataProcessorTests : CustomMetadataProcessorTests;
 	}
 }
