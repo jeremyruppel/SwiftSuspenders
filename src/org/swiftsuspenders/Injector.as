@@ -40,7 +40,7 @@ package org.swiftsuspenders
 		private var m_constructorInjectionPoints : Dictionary;
 		private var m_attendedToInjectees : Dictionary;
 		private var m_xmlMetadata : XML;
-		
+		private var m_metadataProcessors : Array;
 		
 		/*******************************************************************************************
 		*								public methods											   *
@@ -52,6 +52,10 @@ package org.swiftsuspenders
 			m_constructorInjectionPoints = new Dictionary();
 			m_attendedToInjectees = new Dictionary(true);
 			m_xmlMetadata = xmlConfig;
+			m_metadataProcessors = new Array();
+			
+			addMetadataProcessor( new InjectMetadataProcessor( ) );
+			addMetadataProcessor( new PostConstructMetadataProcessor( ) );
 		}
 		
 		public function mapValue(whenAskedFor : Class, useValue : Object, named : String = "") : *
@@ -210,6 +214,11 @@ package org.swiftsuspenders
 			return m_parentInjector;
 		}
 		
+		public function addMetadataProcessor( metadataProcessor : IMetadataProcessor ) : void
+		{
+			m_metadataProcessors.push( metadataProcessor );
+		}
+		
 		
 		/*******************************************************************************************
 		*								internal methods										   *
@@ -240,14 +249,6 @@ package org.swiftsuspenders
 		/*******************************************************************************************
 		*								private methods											   *
 		*******************************************************************************************/
-		
-		/*private var processors : Array = new Array( );
-		
-		private function addMetadataProcessor( processor : IMetadataProcessor ) : void
-		{
-			processors.push( processor );
-		}*/
-		
 		private function getInjectionPoints(clazz : Class) : Array
 		{
 			var description : XML = describeType(clazz);
@@ -276,30 +277,28 @@ package org.swiftsuspenders
 				m_constructorInjectionPoints[clazz] = new NoParamsConstructorInjectionPoint();
 			}
 			
-			var processors : Array = [ new InjectMetadataProcessor( ), new PostConstructMetadataProcessor( ) ];
-			
-			var processor : IMetadataProcessor;
+			var metadataProcessor : IMetadataProcessor;
 			
 			var processorInjectionPoints : Array;
 			
-			for each( processor in processors )
+			for each( metadataProcessor in m_metadataProcessors )
 			{
 				processorInjectionPoints = [ ];
 				
 				//get injection points for variables
 				for each (node in description.factory.*.
-					(name() == 'variable' || name() == 'accessor').metadata.(@name == processor.tagName))
+					(name() == 'variable' || name() == 'accessor').metadata.(@name == metadataProcessor.tagName))
 				{
-					processorInjectionPoints.push( processor.createPropertyInjectionPoint( node, this ) );
+					processorInjectionPoints.push( metadataProcessor.createPropertyInjectionPoint( node, this ) );
 				}
 				
 				//get injection points for methods
-				for each (node in description.factory.method.metadata.(@name == processor.tagName))
+				for each (node in description.factory.method.metadata.(@name == metadataProcessor.tagName))
 				{
-					processorInjectionPoints.push( processor.createMethodInjectionPoint( node, this ) );
+					processorInjectionPoints.push( metadataProcessor.createMethodInjectionPoint( node, this ) );
 				}
 				
-				injectionPoints.push.apply( injectionPoints, processor.postProcessInjectionPoints( processorInjectionPoints ) );
+				injectionPoints.push.apply( injectionPoints, metadataProcessor.postProcessInjectionPoints( processorInjectionPoints ) );
 			}
 
 			return injectionPoints;
