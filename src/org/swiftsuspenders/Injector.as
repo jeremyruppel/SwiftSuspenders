@@ -24,6 +24,8 @@ package org.swiftsuspenders
 	import org.swiftsuspenders.injectionresults.InjectOtherRuleResult;
 	import org.swiftsuspenders.injectionresults.InjectSingletonResult;
 	import org.swiftsuspenders.injectionresults.InjectValueResult;
+	import org.swiftsuspenders.processors.impl.InjectMetadataProcessor;
+	import org.swiftsuspenders.processors.IMetadataProcessor;
 
 	public class Injector
 	{
@@ -237,6 +239,14 @@ package org.swiftsuspenders
 		/*******************************************************************************************
 		*								private methods											   *
 		*******************************************************************************************/
+		
+		/*private var processors : Array = new Array( );
+		
+		private function addMetadataProcessor( processor : IMetadataProcessor ) : void
+		{
+			processors.push( processor );
+		}*/
+		
 		private function getInjectionPoints(clazz : Class) : Array
 		{
 			var description : XML = describeType(clazz);
@@ -264,19 +274,25 @@ package org.swiftsuspenders
 			{
 				m_constructorInjectionPoints[clazz] = new NoParamsConstructorInjectionPoint();
 			}
-			//get injection points for variables
-			for each (node in description.factory.*.
-				(name() == 'variable' || name() == 'accessor').metadata.(@name == 'Inject'))
+			
+			var processors : Array = [ new InjectMetadataProcessor( ) ];
+			
+			var processor : IMetadataProcessor;
+			
+			for each( processor in processors )
 			{
-				injectionPoint = new PropertyInjectionPoint(node, this);
-				injectionPoints.push(injectionPoint);
-			}
-		
-			//get injection points for methods
-			for each (node in description.factory.method.metadata.(@name == 'Inject'))
-			{
-				injectionPoint = new MethodInjectionPoint(node, this);
-				injectionPoints.push(injectionPoint);
+				//get injection points for variables
+				for each (node in description.factory.*.
+					(name() == 'variable' || name() == 'accessor').metadata.(@name == processor.tagName))
+				{
+					injectionPoints.push( processor.createPropertyInjectionPoint( node, this ) );
+				}
+				
+				//get injection points for methods
+				for each (node in description.factory.method.metadata.(@name == processor.tagName))
+				{
+					injectionPoints.push( processor.createMethodInjectionPoint( node, this ) );
+				}
 			}
 			
 			//get post construct methods
