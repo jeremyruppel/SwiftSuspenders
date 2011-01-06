@@ -69,7 +69,8 @@
 	
 	  <!-- Keep the magic alive. -->
       <arg value="-keep-as3-metadata+=Inject" />
-		<arg value="-keep-as3-metadata+=PostConstruct" />
+	  <arg value="-keep-as3-metadata+=PostConstruct" />
+	  <arg value="-keep-as3-metadata+=ClassName" />
 	
 	  <!-- Boolean mosh pit! -->
       <arg value="-incremental=true" />
@@ -96,6 +97,7 @@
 	  <!-- Keep the magic alive. -->
       <arg value="-keep-as3-metadata+=Inject" />
 	  <arg value="-keep-as3-metadata+=PostConstruct" />
+	  <arg value="-keep-as3-metadata+=ClassName" />
 		
       <!-- Include classes from SWCs in this folder, but only the ones we use. -->
       <arg value="-library-path+=${lib.loc}" />

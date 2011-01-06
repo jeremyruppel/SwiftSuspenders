@@ -9,23 +9,18 @@ package org.swiftsuspenders
 {
 	import flash.system.ApplicationDomain;
 	import flash.utils.Dictionary;
-	import flash.utils.Proxy;
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-	
 	import org.swiftsuspenders.injectionpoints.ConstructorInjectionPoint;
 	import org.swiftsuspenders.injectionpoints.InjectionPoint;
-	import org.swiftsuspenders.injectionpoints.MethodInjectionPoint;
 	import org.swiftsuspenders.injectionpoints.NoParamsConstructorInjectionPoint;
-	import org.swiftsuspenders.injectionpoints.PostConstructInjectionPoint;
-	import org.swiftsuspenders.injectionpoints.PropertyInjectionPoint;
 	import org.swiftsuspenders.injectionresults.InjectClassResult;
 	import org.swiftsuspenders.injectionresults.InjectOtherRuleResult;
 	import org.swiftsuspenders.injectionresults.InjectSingletonResult;
 	import org.swiftsuspenders.injectionresults.InjectValueResult;
-	import org.swiftsuspenders.processors.impl.InjectMetadataProcessor;
 	import org.swiftsuspenders.processors.IMetadataProcessor;
+	import org.swiftsuspenders.processors.impl.InjectMetadataProcessor;
 	import org.swiftsuspenders.processors.impl.PostConstructMetadataProcessor;
 
 	public class Injector
