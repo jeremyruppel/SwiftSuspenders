@@ -1,3 +1,9 @@
+h2. Fork Disclaimer
+
+This fork's purpose is to introduce custom metadata processors into "SwiftSuspenders":https://github.com/tschneidereit/SwiftSuspenders.
+
+Please read this quick "Disclaimer":https://github.com/jeremyruppel/SwiftSuspenders/wiki/Why%3F for the intended use and rationale behind the work.
+
 h1. SwiftSuspenders
 
 SwiftSuspenders is a basic metadata driven IOC (Inversion Of Control) solution for AS3. In its basic approach, it is similar to the "SmartyPants IOC framework":http://code.google.com/p/smartypants-ioc/ by "Josh McDonald":http://flex.joshmcdonald.info/, but it differs from SmartyPants in two respects: It is inferior in capabilities and it is quite somewhat faster.
