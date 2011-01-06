@@ -7,7 +7,9 @@
 package org.swiftsuspenders.processors.impl
 {
 	import org.swiftsuspenders.Injector;
+	import org.swiftsuspenders.InjectorError;
 	import org.swiftsuspenders.injectionpoints.InjectionPoint;
+	import org.swiftsuspenders.injectionpoints.PostConstructInjectionPoint;
 	import org.swiftsuspenders.processors.IMetadataProcessor;
 
 	/**
@@ -52,7 +54,7 @@ package org.swiftsuspenders.processors.impl
 		 */
 		public function createPropertyInjectionPoint( node : XML, injector : Injector ) : InjectionPoint
 		{
-			
+			throw new InjectorError( 'Injector cannot inject into properties marked [PostConstruct]' );
 		}
 
 		/**
@@ -63,7 +65,17 @@ package org.swiftsuspenders.processors.impl
 		 */
 		public function createMethodInjectionPoint( node : XML, injector : Injector ) : InjectionPoint
 		{
-			
+			return new PostConstructInjectionPoint( node, injector );
+		}
+		
+		/**
+		 * @inheritDoc
+		 * @param injectionPoints Array
+		 * @return Array 
+		 */
+		public function postProcessInjectionPoints( injectionPoints : Array ) : Array
+		{
+			return injectionPoints.sortOn( 'order', Array.NUMERIC );
 		}
 		
 	}

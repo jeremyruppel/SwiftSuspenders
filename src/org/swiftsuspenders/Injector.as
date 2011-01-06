@@ -26,6 +26,7 @@ package org.swiftsuspenders
 	import org.swiftsuspenders.injectionresults.InjectValueResult;
 	import org.swiftsuspenders.processors.impl.InjectMetadataProcessor;
 	import org.swiftsuspenders.processors.IMetadataProcessor;
+	import org.swiftsuspenders.processors.impl.PostConstructMetadataProcessor;
 
 	public class Injector
 	{
@@ -275,7 +276,7 @@ package org.swiftsuspenders
 				m_constructorInjectionPoints[clazz] = new NoParamsConstructorInjectionPoint();
 			}
 			
-			var processors : Array = [ new InjectMetadataProcessor( ) ];
+			var processors : Array = [ new InjectMetadataProcessor( ), new PostConstructMetadataProcessor( ) ];
 			
 			var processor : IMetadataProcessor;
 			
@@ -300,20 +301,7 @@ package org.swiftsuspenders
 				
 				injectionPoints.push.apply( injectionPoints, processor.postProcessInjectionPoints( processorInjectionPoints ) );
 			}
-			
-			//get post construct methods
-			var postConstructMethodPoints : Array = [];
-			for each (node in description.factory.method.metadata.(@name == 'PostConstruct'))
-			{
-				injectionPoint = new PostConstructInjectionPoint(node, this);
-				postConstructMethodPoints.push(injectionPoint);
-			}
-			if (postConstructMethodPoints.length > 0)
-			{
-				postConstructMethodPoints.sortOn("order", Array.NUMERIC);
-				injectionPoints.push.apply(injectionPoints, postConstructMethodPoints);
-			}
-			
+
 			return injectionPoints;
 		}
 
