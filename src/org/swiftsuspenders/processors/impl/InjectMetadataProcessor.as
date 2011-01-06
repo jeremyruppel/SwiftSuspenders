@@ -67,6 +67,16 @@ package org.swiftsuspenders.processors.impl
 		{
 			return new MethodInjectionPoint( node, injector );
 		}
+		
+		/**
+		 * @inheritDoc
+		 * @param injectionPoints Array
+		 * @return Array 
+		 */
+		public function postProcessInjectionPoints( injectionPoints : Array ) : Array
+		{
+			return injectionPoints;
+		}
 	
 	}
 

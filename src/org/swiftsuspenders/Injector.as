@@ -279,20 +279,26 @@ package org.swiftsuspenders
 			
 			var processor : IMetadataProcessor;
 			
+			var processorInjectionPoints : Array;
+			
 			for each( processor in processors )
 			{
+				processorInjectionPoints = [ ];
+				
 				//get injection points for variables
 				for each (node in description.factory.*.
 					(name() == 'variable' || name() == 'accessor').metadata.(@name == processor.tagName))
 				{
-					injectionPoints.push( processor.createPropertyInjectionPoint( node, this ) );
+					processorInjectionPoints.push( processor.createPropertyInjectionPoint( node, this ) );
 				}
 				
 				//get injection points for methods
 				for each (node in description.factory.method.metadata.(@name == processor.tagName))
 				{
-					injectionPoints.push( processor.createMethodInjectionPoint( node, this ) );
+					processorInjectionPoints.push( processor.createMethodInjectionPoint( node, this ) );
 				}
+				
+				injectionPoints.push.apply( injectionPoints, processor.postProcessInjectionPoints( processorInjectionPoints ) );
 			}
 			
 			//get post construct methods

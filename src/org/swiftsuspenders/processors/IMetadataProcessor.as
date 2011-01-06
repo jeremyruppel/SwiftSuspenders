@@ -40,7 +40,14 @@ package org.swiftsuspenders.processors
 		 * @return InjectionPoint 
 		 */
 		function createMethodInjectionPoint( node : XML, injector : Injector ) : InjectionPoint;
-
+	
+		/**
+		 * allows the processor to manipulate injection points after they have been identified
+		 * @param injectionPoints Array
+		 * @return Array 
+		 */
+		function postProcessInjectionPoints( injectionPoints : Array ) : Array;
+		
 		//--------------------------------------
 		//  GETTER/SETTERS
 		//--------------------------------------
