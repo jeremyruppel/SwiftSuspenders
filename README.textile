@@ -2,7 +2,7 @@ h2. Fork Disclaimer
 
 This fork's purpose is to introduce custom metadata processors into "SwiftSuspenders":https://github.com/tschneidereit/SwiftSuspenders.
 
-Please read this quick "Disclaimer":https://github.com/jeremyruppel/SwiftSuspenders/wiki/Why%3F for the intended use and rationale behind the work.
+Please read this quick "Purpose Statement":https://github.com/jeremyruppel/SwiftSuspenders/wiki/Purpose for the intended use and rationale behind the work.
 
 h1. SwiftSuspenders
 
